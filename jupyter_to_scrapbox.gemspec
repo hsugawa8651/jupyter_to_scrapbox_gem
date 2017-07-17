@@ -6,13 +6,10 @@ require "jupyter_to_scrapbox/version"
 Gem::Specification.new do |spec|
   spec.name          = "jupyter_to_scrapbox"
   spec.version       = JupyterToScrapbox::VERSION
-  spec.authors       = [""]
-    # "TODO: Write your name"]
-  spec.email         = [""]
-    # TODO: Write your email address"]
+  spec.authors       = ["Hiroharu Sugawara"]
+  spec.email         = ["hsugawa@tmu.ac.jp"]
 
-  spec.summary       = %q{}
-    # %q{TODO: Write a short summary, because Rubygems requires one.}
+  spec.summary       = %q{convert jupyter-notebook to scrapbox-ready-json}
   spec.description   = %q{}
     # %q{TODO: Write a longer description or delete this line.}
   spec.homepage      = %q{}

@@ -22,7 +22,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+
+    $ bundle exec bin/jupyter_to_scrapbox FILE > scrapbox.json
+
 
 ## Development
 
