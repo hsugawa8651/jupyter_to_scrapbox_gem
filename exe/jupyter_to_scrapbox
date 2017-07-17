@@ -1,3 +1,30 @@
 #!/usr/bin/env ruby
+# coding: utf-8
 
 require "jupyter_to_scrapbox"
+require 'thor'
+
+module JupyterToScrapbox
+  class CLI < Thor
+    class_option :help, type: :boolean, aliases: '-h', desc: 'help message.'
+    class_option :version, type: :boolean, desc: 'version'
+    default_task :help
+
+    option :file, type: :string, aliases: '-f', desc: 'specify input jupyter-notebook file (.ipynb)'
+    method_option :verbose, type: :boolean, aliases: '-v', desc: 'verbose message'
+    desc 'convert FILE [options]', 'Convert jupyter-notebook file to scrapbox-json'
+
+    def convert(path)
+      converter=JupyterToScrapbox::Converter.new(path)
+      converter.set_verbose() if options[:verbose]
+      converter.start()
+      # puts "Hello "+path
+    end
+    desc 'version', 'version'
+    def version
+      p JupyterToScrapbox::VERSION
+    end
+  end
+end
+
+JupyterToScrapbox::CLI.start(ARGV)
