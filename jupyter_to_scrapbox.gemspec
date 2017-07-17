@@ -11,10 +11,8 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{convert jupyter-notebook to scrapbox-ready-json}
   spec.description   = %q{}
-    # %q{TODO: Write a longer description or delete this line.}
   spec.homepage      = %q{http://github.com/hsugawa8651/juoyter_to_scrapbox_gem}
-    #{ }"TODO: Put your gem's website or public repo URL here."
-  soec.licences      = [ "MIT" ]
+  spec.licenses      = [ "MIT" ]
 
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
