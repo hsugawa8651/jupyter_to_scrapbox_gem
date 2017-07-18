@@ -1,9 +1,16 @@
+.DS_Store
+*.gem
+*.rbc
+/.config
 /.bundle/
 /.yardoc
+/InstalledFiles
 /Gemfile.lock
 /_yardoc/
 /coverage/
 /doc/
 /pkg/
 /spec/reports/
+/test/tmp/
+/test/version_tmp/
 /tmp/
