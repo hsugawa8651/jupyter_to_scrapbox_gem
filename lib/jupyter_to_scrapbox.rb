@@ -9,6 +9,8 @@ module JupyterToScrapbox
       @ipynb_path=File.expand_path(path)
       @sb_json=[]
       @verbose=false
+      @display_input_numbers=false
+      @prefix_comment="#"
     end
 
     def set_verbose()
@@ -28,7 +30,6 @@ module JupyterToScrapbox
     end
 
     def push_text(s)
-    #  @sb_json << s
       s.split("\n").each do |s1|
         @sb_json << s1
       end
@@ -39,7 +40,6 @@ module JupyterToScrapbox
     end
 
     def push_code(s)
-      # @sb_json << "\t"+s
       s.split("\n").each do |s1|
         @sb_json << "\t"+s1
       end
@@ -68,7 +68,7 @@ module JupyterToScrapbox
       vputs "-- source"
       vputs code["source"]
       push_text("code:source.jl")
-      if @display_input_number
+      if @display_input_numbers
         count=code["execution_count"]
         push_code("#{@prefix_comment} In[#{count}]")
       end
@@ -135,7 +135,7 @@ module JupyterToScrapbox
       vp @file_extension
 
       if %r!\.(jl|py|rb)!i =~ @file_extension
-        @display_input_number=true
+        @display_input_numbers=true
         @prefix_comment="#"
       end
 
@@ -145,8 +145,6 @@ module JupyterToScrapbox
     end
 
     def start()
-      vputs "this is a pen"
-      vputs "Hello "+@ipynb_path
       parse_ipynb()
 
       my_title=File.basename(@ipynb_path,".ipynb")
