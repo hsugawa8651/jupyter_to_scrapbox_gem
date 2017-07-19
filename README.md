@@ -24,9 +24,9 @@ gem install jupyter_to_scrapbox
     $ bundle exec bin/jupyter_to_scrapbox convert FILE > scrapbox.json
 
 Follow the instruction of scrapbox's "import pages" tool at the url:
-    https://scrapbox.io/help/インポート・エクスポートする#585904d1af5c5b000065ceb3
+    https://scrapbox.io/help/インポート・エクスポートする
 
-Specify scrapbox.json file.
+Specify created scrapbox.json file.
 
 ## Development
 
