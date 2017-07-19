@@ -1,6 +1,10 @@
 # JupyterToScrapbox
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/jupyter_to_scrapbox`. To experiment with that code, run `bin/console` for an interactive prompt.
+The Jupyter Notebook http://jupyter.org is an open-source web application that allows you to create and share documents that contain live code and explanatory text.
+
+Scrapbox http://scrapbox.io is a novel note-taking service for teams.
+
+This tool converts jupyter notebook file to json file suitable for import to scrapbox.
 
 TODO: Delete this and the text above, and describe your gem
 
@@ -11,22 +15,18 @@ Warning : do not believe the instruction below.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'jupyter_to_scrapbox'
+gem install jupyter_to_scrapbox
 ```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install jupyter_to_scrapbox
 
 ## Usage
 
 
-    $ bundle exec bin/jupyter_to_scrapbox FILE > scrapbox.json
+    $ bundle exec bin/jupyter_to_scrapbox convert FILE > scrapbox.json
 
+Follow the instruction of scrapbox's "import pages" tool at the url:
+    https://scrapbox.io/help/インポート・エクスポートする#585904d1af5c5b000065ceb3
+
+Specify scrapbox.json file.
 
 ## Development
 
