@@ -8,7 +8,7 @@ This tool converts jupyter notebook file to json file suitable for import to scr
 
 TODO: Delete this and the text above, and describe your gem
 
-Warning : do not believe the instruction below.
+Warning : under condtruction. do not believe the instruction below.
 
 ## Installation
 
@@ -21,12 +21,12 @@ gem install jupyter_to_scrapbox
 ## Usage
 
 
-    $ bundle exec bin/jupyter_to_scrapbox convert FILE > scrapbox.json
+    $ bundle exec jupyter_to_scrapbox convert FILE > scrapbox.json
 
 Follow the instruction of scrapbox's "import pages" tool at the url:
     https://scrapbox.io/help/インポート・エクスポートする
 
-Specify created scrapbox.json file.
+Specify the scrapbox.json file created by this tool.
 
 ## Development
 
