@@ -26,12 +26,14 @@ The input file is jupyter notebook (file extension = .ipynb)
 
 Invoke this tool by:
 
+```ruby
     $ bundle exec jupyter_to_scrapbox convert FILE > scrapbox.json
+```
 
-To import to scrapbox, follow the instruction of "import pages" tool of "scrapbox" at the url:
+To import `scrapbox.json` to scrapbox, follow the instruction of "import pages" tool of "scrapbox" at the url:
     https://scrapbox.io/help/インポート・エクスポートする
 
-Specify the scrapbox.json file created by this tool.
+Specify `scrapbox.json` created by this tool.
 
 ## Development
 
