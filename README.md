@@ -12,7 +12,9 @@ Warning : under condtruction. do not believe the instruction below.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+This tool, written in Ruby, is distributed via rubygem.
+
+From command line, invoke gem install command:
 
 ```ruby
 gem install jupyter_to_scrapbox
@@ -20,12 +22,13 @@ gem install jupyter_to_scrapbox
 
 ## Usage
 
+The input file is jupyter notebook (file extension = .ipynb)
 
+Invoke this tool by:
     $ bundle exec jupyter_to_scrapbox convert FILE > scrapbox.json
 
-Follow the instruction of scrapbox's "import pages" tool at the url:
+To import to scrapbox, follow the instruction of "import pages" tool of "scrapbox" at the url:
     https://scrapbox.io/help/インポート・エクスポートする
-
 Specify the scrapbox.json file created by this tool.
 
 ## Development
