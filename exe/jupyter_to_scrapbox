@@ -11,10 +11,12 @@ module JupyterToScrapbox
     default_task :help
 
     method_option :verbose, type: :boolean, aliases: '-v', desc: 'verbose message'
+    method_option :moderate, type: :boolean, aliases: '-m', desc: 'moderate mode: do not convert markdown notations'
     desc 'converts FILES [options]', 'Convert jupyter-notebook files to scrapbox-json'
 
     def convert(*paths)
       JupyterToScrapbox::Converter.set_verbose() if options[:verbose]
+      JupyterToScrapbox::Converter.set_moderate() if options[:moderate]
       paths.each do |path|
         JupyterToScrapbox::Converter.add(path)
       end

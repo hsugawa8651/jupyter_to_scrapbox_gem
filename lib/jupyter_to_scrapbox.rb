@@ -7,9 +7,14 @@ module JupyterToScrapbox
   class Converter
     @@verbose=false
     @@converters=[]
+    @@parse_markdown_notations=true
 
     def Converter.set_verbose()
       @@verbose=true
+    end
+
+    def Converter.set_moderate()
+      @@parse_markdown_notations=false
     end
 
     def Converter.add(path)
@@ -48,19 +53,13 @@ module JupyterToScrapbox
       puts(s) if @@verbose
     end
 
-    def push_text(s)
-      s.split("\n").each do |s1|
-        @sb_json << s1
-      end
-    end
-
     def push_empty_text()
       @sb_json << ""
     end
 
-    def push_code(s)
+    def push_text(s)
       s.split("\n").each do |s1|
-        @sb_json << "\t"+s1
+        @sb_json << s1
       end
     end
 
@@ -70,16 +69,37 @@ module JupyterToScrapbox
       end
     end
 
-    def push_codes(ww)
+    def push_markdown_text(s)
+      s.split("\n").each do |s1|
+        if @@parse_markdown_notations
+          s1.sub!(%r!^\$\$(.+)\$\$!, '[$\1 ]' ) || s1.gsub!(%r!\$(.+)\$!, '[$\1 ]' )
+        end
+        @sb_json << s1
+      end
+    end
+
+    def push_markdown_texts(ww)
       ww.each do |s|
-        push_code(s)
+        push_markdown_text(s)
       end
     end
 
     def parse_cell_markdown(md)
       vputs "-- source"
       vputs md["source"]
-      push_texts(md["source"])
+      push_markdown_texts(md["source"])
+    end
+
+    def push_code(s)
+      s.split("\n").each do |s1|
+        @sb_json << "\t"+s1
+      end
+    end
+
+    def push_codes(ww)
+      ww.each do |s|
+        push_code(s)
+      end
     end
 
     def parse_cell_code(code)
