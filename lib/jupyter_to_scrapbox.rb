@@ -49,10 +49,10 @@ module JupyterToScrapbox
     end
 
     def push_text(s)
-       s.split("\n").each do |s1|
-         @sb_json << s1
-       end
-     end
+      s.split("\n").each do |s1|
+        @sb_json << s1
+      end
+    end
 
     def push_empty_text()
       @sb_json << ""
