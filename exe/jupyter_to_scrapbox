@@ -10,14 +10,15 @@ module JupyterToScrapbox
     class_option :version, type: :boolean, desc: 'version'
     default_task :help
 
-    option :file, type: :string, aliases: '-f', desc: 'specify input jupyter-notebook file (.ipynb)'
     method_option :verbose, type: :boolean, aliases: '-v', desc: 'verbose message'
-    desc 'convert FILE [options]', 'Convert jupyter-notebook file to scrapbox-json'
+    desc 'converts FILES [options]', 'Convert jupyter-notebook files to scrapbox-json'
 
-    def convert(path)
-      converter=JupyterToScrapbox::Converter.new(path)
-      converter.set_verbose() if options[:verbose]
-      converter.start()
+    def convert(*paths)
+      JupyterToScrapbox::Converter.set_verbose() if options[:verbose]
+      paths.each do |path|
+        JupyterToScrapbox::Converter.add(path)
+      end
+      JupyterToScrapbox::Converter.start()
       # puts "Hello "+path
     end
     desc 'version', 'version'

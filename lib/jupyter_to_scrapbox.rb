@@ -5,35 +5,54 @@ module JupyterToScrapbox
   # Your code goes here...
 
   class Converter
+    @@verbose=false
+    @@converters=[]
+
+    def Converter.set_verbose()
+      @@verbose=true
+    end
+
+    def Converter.add(path)
+      @@converters.push Converter.new(path)
+    end
+
+    def Converter.start()
+      pages=@@converters.collect do |converter|
+        converter.start()
+      end
+
+      result={
+        "pages": pages
+      }
+
+      puts result.to_json
+
+    end
+
     def initialize(path)
       @ipynb_path=File.expand_path(path)
       @sb_json=[]
-      @verbose=false
       @display_input_numbers=false
       @prefix_comment="#"
     end
 
-    def set_verbose()
-      @verbose=true
-    end
-
     def vp(s)
-      p(s) if @verbose
+      p(s) if @@verbose
     end
 
     def vprint(s)
-      print(s) if @verbose
+      print(s) if @@verbose
     end
 
     def vputs(s)
-      puts(s) if @verbose
+      puts(s) if @@verbose
     end
 
     def push_text(s)
-      s.split("\n").each do |s1|
-        @sb_json << s1
-      end
-    end
+       s.split("\n").each do |s1|
+         @sb_json << s1
+       end
+     end
 
     def push_empty_text()
       @sb_json << ""
@@ -44,7 +63,6 @@ module JupyterToScrapbox
         @sb_json << "\t"+s1
       end
     end
-
 
     def push_texts(ww)
       ww.each do |s|
@@ -148,14 +166,12 @@ module JupyterToScrapbox
       parse_ipynb()
 
       my_title=File.basename(@ipynb_path,".ipynb")
-      result={
-        "pages": [ {
-          "title": my_title,
-          "lines": @sb_json.unshift(my_title)
-        }]
-      }
 
-      puts result.to_json
+      page= {
+        "title": my_title,
+        "lines": @sb_json.unshift(my_title)
+      }
+      return page
     end
 
   end

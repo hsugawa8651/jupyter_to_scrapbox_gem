@@ -4,17 +4,13 @@ The Jupyter Notebook http://jupyter.org is an open-source web application that a
 
 Scrapbox http://scrapbox.io is a novel note-taking service for teams.
 
-This tool converts jupyter notebook file to json file suitable for import to scrapbox.
-
-TODO: Delete this and the text above, and describe your gem
-
-Warning : under condtruction. do not believe the instruction below.
+This tool converts jupyter notebook files to json file suitable for import to scrapbox.
 
 ## Installation
 
-This tool, written in Ruby, is distributed via rubygem.
+This tool, written in Ruby, is distributed via rubygem. https://rubygems.org/gems/jupyter_to_scrapbox
 
-From command line, invoke gem install command:
+To install, invoke gem install command:
 
 ```ruby
 gem install jupyter_to_scrapbox
@@ -22,12 +18,12 @@ gem install jupyter_to_scrapbox
 
 ## Usage
 
-The input file is jupyter notebook (file extension = .ipynb)
+Input files are jupyter notebook files. (file extension = .ipynb)
 
 Invoke this tool by:
 
 ```ruby
-    $ bundle exec jupyter_to_scrapbox convert FILE > scrapbox.json
+    $ bundle exec jupyter_to_scrapbox convert FILES > scrapbox.json
 ```
 
 To import `scrapbox.json` to scrapbox, follow the instruction of "import pages" tool of "scrapbox" at the url:

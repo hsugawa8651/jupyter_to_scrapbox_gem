@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Hiroharu Sugawara"]
   spec.email         = ["hsugawa@tmu.ac.jp"]
 
-  spec.summary       = %q{convert jupyter-notebook to scrapbox-import-ready-json}
-  spec.description   = %q{convert jupyter-notebook to scrapbox-import-ready-json}
+  spec.summary       = %q{convert jupyter-notebook files to scrapbox-import-ready-json}
+  spec.description   = %q{convert jupyter-notebook files to scrapbox-import-ready-json}
   spec.homepage      = %q{https://github.com/hsugawa8651/jupyter_to_scrapbox_gem}
   spec.licenses      = [ "MIT" ]
 
