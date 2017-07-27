@@ -9,12 +9,12 @@ module JupyterToScrapbox
     @@converters=[]
     @@parse_markdown_notations=true
 
-    def Converter.set_verbose()
-      @@verbose=true
+    def Converter.set_verbose(v)
+      @@verbose=v
     end
 
-    def Converter.set_moderate()
-      @@parse_markdown_notations=false
+    def Converter.set_parse_markdown(v)
+      @@parse_markdown_notations=v
     end
 
     def Converter.add(path)
