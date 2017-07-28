@@ -3,14 +3,18 @@ require "JSON"
 
 module JupyterToScrapbox
   # Your code goes here...
-
   class Converter
     @@verbose=false
+    @@register_images=false
     @@parse_markdown_notations=true
     @@converters=[]
 
     def Converter.set_verbose(v)
       @@verbose=v
+    end
+
+    def Converter.set_register_images(v)
+      @@register_images=v
     end
 
     def Converter.set_parse_markdown(v)
@@ -22,8 +26,9 @@ module JupyterToScrapbox
     end
 
     def Converter.perform()
-      pages=@@converters.collect do |converter|
-        converter.start()
+      pages=@@converters.collect do |c|
+        c.start()
+        c.page()
       end
 
       result={
@@ -102,6 +107,16 @@ module JupyterToScrapbox
       end
     end
 
+    def parse_image_png(v)
+      vputs v
+      push_text("code:output.txt")
+      push_code("image/png")
+      if @@register_images
+        push_text(v)
+      end
+      push_empty_text()
+    end
+
     def parse_cell_code(code)
       vputs "-- source"
       vputs code["source"]
@@ -130,10 +145,7 @@ module JupyterToScrapbox
               vputs "-- outputs #{out_data_c} inner data => #{out_data_k}"
               case out_data_k
               when "image/png"
-                vputs out_data_v
-                push_text("code:output.txt")
-                push_code("image/png")
-                push_empty_text()
+                parse_image_png(out_data_v)
               when "text/plain"
                 vputs out_data_v
                 push_text("code:output.txt")
@@ -184,9 +196,10 @@ module JupyterToScrapbox
 
     def start()
       parse_ipynb()
+    end
 
+    def page()
       my_title=File.basename(@ipynb_path,".ipynb")
-
       page= {
         "title": my_title,
         "lines": @sb_json.unshift(my_title)
