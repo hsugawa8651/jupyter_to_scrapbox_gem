@@ -6,8 +6,8 @@ module JupyterToScrapbox
 
   class Converter
     @@verbose=false
-    @@converters=[]
     @@parse_markdown_notations=true
+    @@converters=[]
 
     def Converter.set_verbose(v)
       @@verbose=v
@@ -21,7 +21,7 @@ module JupyterToScrapbox
       @@converters.push Converter.new(path)
     end
 
-    def Converter.start()
+    def Converter.perform()
       pages=@@converters.collect do |converter|
         converter.start()
       end
