@@ -1,5 +1,36 @@
 require "jupyter_to_scrapbox/version"
+require "rest-client"
 require "JSON"
+require 'base64'
+
+def register_image(vv)
+  f=Tempfile.new(['image','.png'],Dir.tmpdir,:binary => true)
+  f.write Base64.decode64(vv)
+  image_path=File.expand_path(f.to_path)
+  f.close(false)
+  vp image_path
+  vputs File.new(image_path, 'rb')
+  gyazo_url="https://upload.gyazo.com/api/upload"
+  begin
+    r = RestClient.post gyazo_url, {
+      "access_token" => ENV["GYAZO_TOKEN"],
+    	:imagedata => File.new(image_path, 'rb')
+    }
+    return JSON.parse(r)
+  rescue => e
+    p e
+    puts e.backtrace
+    puts <<EOS
+Failed to register image data.
+- Be online.
+- Set your ACCESS_TOKEN to the environment variable "GYAZO_TOKEN"
+EOS
+  ensure
+    # FileUtils.rm(image_path)
+  end
+  exit(1)
+end
+
 
 module JupyterToScrapbox
   # Your code goes here...
@@ -9,8 +40,11 @@ module JupyterToScrapbox
     @@parse_markdown_notations=true
     @@converters=[]
 
+    def Converter.prepareGyazoclient()
+    end
+
     def Converter.set_verbose(v)
-      @@verbose=v
+    bose=v
     end
 
     def Converter.set_register_images(v)
@@ -108,11 +142,14 @@ module JupyterToScrapbox
     end
 
     def parse_image_png(v)
-      vputs v
+      vputs(v)
+
       push_text("code:output.txt")
       push_code("image/png")
       if @@register_images
-        push_text(v)
+        r=register_image(v)
+        url=r["url"]
+        push_text( "["+url+"]"  )
       end
       push_empty_text()
     end
@@ -206,6 +243,5 @@ module JupyterToScrapbox
       }
       return page
     end
-
   end
 end
