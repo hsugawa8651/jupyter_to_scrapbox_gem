@@ -31,6 +31,10 @@ To import `scrapbox.json` to scrapbox, follow the instruction of "import pages" 
 
 Specify `scrapbox.json` created by this tool.
 
+In order to register inline images to GYAZO service (--image or -i option),
+preset GYAZO's access token to the environment variable GYAZO_TOKEN.
+Refer https://gyazo.com/api for acquiring GYAZO's access token in detail.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
