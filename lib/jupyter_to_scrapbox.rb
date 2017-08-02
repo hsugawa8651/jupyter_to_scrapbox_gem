@@ -26,7 +26,7 @@ Failed to register image data.
 - Set your ACCESS_TOKEN to the environment variable "GYAZO_TOKEN"
 EOS
   ensure
-    # FileUtils.rm(image_path)
+    FileUtils.rm(image_path)
   end
   exit(1)
 end
