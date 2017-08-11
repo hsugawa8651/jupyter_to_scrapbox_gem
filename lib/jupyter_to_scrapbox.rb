@@ -1,5 +1,7 @@
 require "jupyter_to_scrapbox/version"
 require "rest-client"
+require "open-uri"
+require "uri"
 require "JSON"
 require 'base64'
 
@@ -74,7 +76,8 @@ module JupyterToScrapbox
     end
 
     def initialize(path)
-      @ipynb_path=File.expand_path(path)
+      @ipynb_path=path
+      @page_title=""
       @sb_json=[]
       @display_input_numbers=false
       @prefix_comment="#"
@@ -214,10 +217,14 @@ module JupyterToScrapbox
     end
 
     def parse_ipynb()
-      texts=File.read(@ipynb_path)
+      @texts=""
+      open(@ipynb_path) do |f|
+        @texts=f.read
+      end
       # vputs texts
-      js=JSON.parse(texts)
+      js=JSON.parse(@texts)
       vp js.length
+
       @file_extension=js["metadata"]["language_info"]["file_extension"]
       vp @file_extension
 
@@ -236,10 +243,17 @@ module JupyterToScrapbox
     end
 
     def page()
-      my_title=File.basename(@ipynb_path,".ipynb")
+      case @ipynb_path
+      when %r!^https?://!i, %r!^ftp://!i
+        uri=URI.parse(@ipynb_path)
+        @uri=uri.path
+      else
+        @uri=@ipynb_path
+      end
+      @page_title=File.basename(@uri,".ipynb")
       page= {
-        "title": my_title,
-        "lines": @sb_json.unshift(my_title)
+        "title": @page_title,
+        "lines": @sb_json.unshift(@ipynb_path)
       }
       return page
     end
