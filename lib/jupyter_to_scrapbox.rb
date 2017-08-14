@@ -76,12 +76,20 @@ module JupyterToScrapbox
     end
 
     def initialize(path)
-      @ipynb_path=path
       @page_title=""
       @last_modified=nil
       @sb_json=[]
       @display_input_numbers=false
       @prefix_comment="#"
+
+      @offline=true
+      @ipynb_path=path.chomp
+      case @ipynb_path
+      when %r!^https?://!i, %r!^ftp://!i
+        @offline=false
+      else
+        @ipynb_path=File.expand_path(@ipynb_path)
+      end
     end
 
     def vp(s)
@@ -220,14 +228,11 @@ module JupyterToScrapbox
     def parse_ipynb()
       @texts=""
       open(@ipynb_path) do |f|
-        case @ipynb_path
-        when %r!^https?://!i, %r!^ftp://!i
-          @last_modified=f.last_modified
-          unless @last_modified
-            @last_modified=Time.now
-          end
-        else
+        if @offline
           @last_modified=f.mtime
+        else
+          @last_modified=f.last_modified
+          @last_modified=Time.now unless @last_modified
         end
         @texts=f.read
       end
@@ -235,7 +240,10 @@ module JupyterToScrapbox
       js=JSON.parse(@texts)
       vp js.length
 
-      @file_extension=js["metadata"]["language_info"]["file_extension"]
+      begin
+        @file_extension=js["metadata"]["language_info"]["file_extension"]
+      rescue
+      end
       vp @file_extension
 
       if %r!\.(jl|py|rb)!i =~ @file_extension
@@ -253,18 +261,7 @@ module JupyterToScrapbox
     end
 
     def page()
-=begin
-      case @ipynb_path
-      when %r!^https?://!i, %r!^ftp://!i
-        uri=URI.parse(@ipynb_path)
-        @uri=uri.path
-      else
-        @uri=@ipynb_path
-      end
-      @page_title=File.basename(@uri,".ipynb")
-=end
       @page_title=@last_modified.to_s
-
       @sb_json.unshift("")
       @sb_json.unshift(@ipynb_path)
       @sb_json.unshift(@page_title)

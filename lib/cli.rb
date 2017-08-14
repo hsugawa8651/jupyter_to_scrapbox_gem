@@ -19,8 +19,14 @@ module JupyterToScrapbox
       JupyterToScrapbox::Converter.set_verbose(options[:verbose])
       JupyterToScrapbox::Converter.set_register_images(options[:image])
       JupyterToScrapbox::Converter.set_parse_markdown(options[:markdown])
-      paths.each do |path|
-        JupyterToScrapbox::Converter.add(path)
+      if paths.length > 0
+        paths.each do |path|
+          JupyterToScrapbox::Converter.add(path)
+        end
+      else
+        while path=$stdin.gets
+          JupyterToScrapbox::Converter.add(path.chomp)
+        end
       end
       JupyterToScrapbox::Converter.perform()
     end
