@@ -41,6 +41,7 @@ module JupyterToScrapbox
     @@register_images=false
     @@parse_markdown_notations=true
     @@converters=[]
+    @@num_asterisk_for_h1=3
 
     def Converter.prepareGyazoclient()
     end
@@ -55,6 +56,10 @@ module JupyterToScrapbox
 
     def Converter.set_parse_markdown(v)
       @@parse_markdown_notations=v
+    end
+
+    def Converter.set_num_asterisks(v)
+      @@num_asterisk_for_h1=v
     end
 
     def Converter.add(path)
@@ -123,7 +128,15 @@ module JupyterToScrapbox
     def push_markdown_text(s)
       s.split("\n").each do |s1|
         if @@parse_markdown_notations
-          s1.sub!(%r!^\$\$(.+)\$\$!, '[$\1 ]' ) || s1.gsub!(%r!\$(.+)\$!, '[$\1 ]' )
+
+                 # Atx style header
+          if     s1.sub!(%r!^(#+)(.*)$!) { "["+"*"*([@@num_asterisk_for_h1+1-($1.length),1].max) + $2 + "]" } 
+          
+                 # inline math
+          elsif  s1.sub!(%r!^\$\$(.+)\$\$!, '[$\1 ]' ) 
+          else
+                 s1.gsub!(%r!\$(.+)\$!, '[$\1 ]' ) 
+          end 
         end
         @sb_json << s1
       end
